@@ -1,29 +1,60 @@
 ---
-title: "Untitled"
+title: "Pre-class Sept.27"
 output: html_document
+author: "Linde Chen"
 ---
-
-
-
 
 ### Question 1:
 
 Using a loop, print the integers from 1 to 50. 
 
+```{r}
+for (i in 1:50) {
+  print(i)
+}
+```
+
 ### Question 2:
 
 A.  Using a loop, add all the integers between 0 and 1000.
 
+```{r}
+sum = 0
+all = seq(0, 1000)
+
+for (i in 1:length(all)) {
+  sum = sum + all[i]
+}
+```
+
 B. Now, add all the EVEN integers between 0 and 1000 (hint: use seq())
 
+```{r}
+sum = 0
+even = seq(0, 1000, 2)
+
+for (i in 1:length(even)) {
+  sum = sum + even[i]
+}
+```
+
 C. Now, repeat A and B WITHOUT using a loop.
+
+```{r}
+sum(0:1000)
+sum(seq(0, 1000, 2))
+```
 
 ### Question 3:
 
 Here is a dataframe of survey data containing 5 questions :
 
-```{r, eval=FALSE}
-survey <- data.frame(
+The response to each question should be an integer between 1 and 5. Obviously, we have some bad values in the dataframe. The goal of this problem is to fix them.
+
+A. Using a loop, create a new dataframe called survey.clean where all the invalid values (those that are not integers between 1 and 5) are set to NA.
+
+```{r}
+survey = data.frame(
                      "participant" = c(1, 2, 3, 4, 5, 6),
                      "q1" = c(5, 3, 2, 7, 11, 0),
                      "q2" = c(4, 2, 2, 5, -10, 99),
@@ -31,9 +62,23 @@ survey <- data.frame(
                      "q4" = c(-30, 5, 2, 23, 4, 2),
                      "q5" = c(88, 4, -20, 2, 4, 2)
                      )
-```
-The response to each question should be an integer between 1 and 5. Obviously, we have some bad values in the dataframe. The goal of this problem is to fix them.
 
-A. Using a loop, create a new dataframe called survey.clean where all the invalid values (those that are not integers between 1 and 5) are set to NA.
+survey.clean = survey
+
+for (i in 1:6) {
+  for (j in 2:6) {
+    if ((survey.clean[i, j] > 5) | (survey.clean[i, j] < 1)) {
+      survey.clean[i, j] = NA
+    }
+  }
+}
+```
 
 B. Now, again using a loop, add a new column to the dataframe called “invalid.answers” that indicates, for each participant, how many bad answers they gave.
+
+```{r}
+for (i in 1:6) {
+  survey.clean$invalid.answers[i] = 
+    sum(is.na(survey.clean[i, ]))
+}
+```
